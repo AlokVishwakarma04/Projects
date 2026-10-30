@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#f5eddd" />
+  <title>EXPO — Kitchen Pass</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800;900&family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="kitchen-scene" aria-hidden="true">
+    <div class="tile-wall"></div>
+    <div class="steam steam-one"></div>
+    <div class="steam steam-two"></div>
+    <div class="steam steam-three"></div>
+    <div class="pan-art">◒</div>
+    <div class="floating-herb herb-one">✦</div>
+    <div class="floating-herb herb-two">✧</div>
+    <div class="floating-herb herb-three">✦</div>
+    <div class="sizzle sizzle-one"></div>
+    <div class="sizzle sizzle-two"></div>
+  </div>
+
+  <header class="topbar">
+    <a class="brand" href="#" aria-label="EXPO kitchen pass">
+      <span class="brand-icon">E</span>
+      <span class="brand-name">EXPO<small>HOT · FRESH · MOVING</small></span>
+    </a>
+
+    <div class="service-state">
+      <span class="live-light"></span>
+      <span>DINNER SERVICE</span>
+      <span class="state-divider">/</span>
+      <time id="clock">8:30 PM</time>
+    </div>
+
+    <div class="header-actions">
+      <button class="sound-toggle" id="soundToggle" type="button" aria-pressed="true">
+        <span id="soundIcon" aria-hidden="true">🔔</span>
+        <span id="soundLabel">Sound on</span>
+      </button>
+      <button class="theme-toggle" id="themeToggle" type="button">
+        <span id="themeIcon" aria-hidden="true">☾</span>
+        <span id="themeLabel">Dark room</span>
+      </button>
+      <button class="fire-button" id="addOrder" type="button">
+        <span aria-hidden="true">＋</span> FIRE TICKET
+      </button>
+    </div>
+  </header>
+
+  <main class="page">
+    <section class="hero">
+      <div class="hero-text">
+        <p class="overline"><span></span> GOOD EVENING, CHEF</p>
+        <h1>THE KITCHEN  
+<i>IS YOURS.</i></h1>
+        <p class="hero-subtitle">Stay sharp. Plates up. Nobody waits.</p>
+      </div>
+
+      <div class="service-card">
+        <div class="service-card-top">
+          <span>TONIGHT AT THE PASS</span>
+          <span class="service-spark">✦</span>
+        </div>
+        <div class="scoreboard">
+          <div><strong id="activeCount">03</strong><small>ON THE RAIL</small></div>
+          <div class="score-hot"><strong id="lateCount">00</strong><small>NEEDS FIRE</small></div>
+          <div><strong id="doneCount">12</strong><small>PLATES OUT</small></div>
+        </div>
+        <div class="service-card-bottom">
+          <span class="tiny-flame">♨</span>
+          <span>KEEP THAT PASS CLEAR</span>
+          <span class="tiny-flame">♨</span>
+        </div>
+      </div>
+    </section>
+    <section class="rush-preview" aria-labelledby="previewTitle">
+  <div class="preview-copy">
+    <span class="preview-eyebrow">TRY THE TIMER</span>
+    <h2 id="previewTitle">Rush preview</h2>
+    <p>Drag the slider to see when a ticket moves from steady to urgent.</p>
+  </div>
+
+  <div class="preview-ticket" id="previewTicket" data-urgency="calm">
+    <div class="preview-ticket-top">
+      <span>DEMO TICKET · 15 MIN TARGET</span>
+      <strong id="previewUrgency">● GOOD TIME</strong>
+    </div>
+
+    <div class="preview-ticket-bottom">
+      <div>
+        <span class="preview-label">TIME LEFT</span>
+        <strong class="preview-time" id="previewTime">15:00</strong>
+      </div>
+      <div class="preview-note" id="previewNote">
+        <span>!</span>
+        <strong>COLOUR CHANGES WITH THE RUSH</strong>
+      </div>
+    </div>
+
+    <label class="preview-slider-label" for="previewSlider">
+      <span>TIME ELAPSED</span>
+      <span id="previewElapsed">00:00</span>
+    </label>
+    <input
+      id="previewSlider"
+      class="preview-slider"
+      type="range"
+      min="0"
+      max="900"
+      value="0"
+      aria-label="Preview elapsed time from zero to fifteen minutes"
+    />
+    <div class="preview-scale">
+      <span>FRESH</span>
+      <span>GETTING BUSY</span>
+      <span>TIME'S UP</span>
+    </div>
+  </div>
+</section>
+
+
+    <section class="rail-header">
+      <div class="rail-heading">
+        <span class="rail-star">✳</span>
+        <h2>THE PASS</h2>
+        <span class="ticket-count" id="ticketTotal">3 tickets</span>
+      </div>
+      <div class="legend">
+        <span><i class="dot green"></i> GOOD TIME</span>
+        <span><i class="dot amber"></i> PICK IT UP</span>
+        <span><i class="dot red"></i> FIRE</span>
+      </div>
+    </section>
+
+    <section class="ticket-grid" id="orderGrid" aria-live="polite"></section>
+
+    <footer class="footer">
+      <span><kbd>SPACE</kbd> CHECK NEXT</span>
+      <span><kbd>N</kbd> NEW TICKET</span>
+      <span class="footer-message"><i></i> HOT PASS · LIVE</span>
+    </footer>
+  </main>
+
+  <div class="bottom-border" aria-hidden="true"></div>
+
+  <audio
+    id="ticketSound"
+    preload="auto"
+    src="https://assets.mixkit.co/active_storage/sfx/1791/1791-preview.mp3">
+  </audio>
+
+  <audio
+    id="penSound"
+    preload="auto"
+    src="https://assets.mixkit.co/active_storage/sfx/2367/2367-preview.mp3">
+  </audio>
+
+  <template id="ticketTemplate">
+    <article class="ticket">
+      <div class="ticket-topline">
+        <span class="ticket-kind"></span>
+        <span class="urgency"></span>
+      </div>
+
+      <div class="ticket-main">
+        <div>
+          <span class="small-label">TABLE</span>
+          <strong class="table-number"></strong>
+        </div>
+        <div class="ticket-order">
+          <span class="small-label">TICKET</span>
+          <strong class="ticket-number"></strong>
+        </div>
+        <div class="timer-wrap">
+          <span class="small-label">TIME LEFT</span>
+          <strong class="timer">00:00</strong>
+        </div>
+      </div>
+
+      <div class="ticket-meta">
+        <span class="guest-count"></span>
+        <span class="meta-dot">✳</span>
+        <span class="ticket-target"></span>
+      </div>
+
+      <div class="ticket-note">
+        <span class="note-symbol">!</span>
+        <span class="note-text"></span>
+      </div>
+
+      <div class="items-title">
+        <span>FIRE THESE</span>
+        <span class="progress-count"></span>
+      </div>
+      <div class="progress-track"><span class="progress-fill"></span></div>
+      <ul class="item-list"></ul>
+
+      <button class="send-button" type="button">
+        <span>PLATE &amp; SEND</span><b aria-hidden="true">↗</b>
+      </button>
+    </article>
+  </template>
+
+  <script src="app.js"></script>
+</body>
+</html>
